@@ -1,7 +1,7 @@
 all: client server
 
 zip:
-	zip archive.zip makefile *.c *.h *.md
+	zip archive.zip makefile *.c *.h *.md .gitignore
 
 server: server.o 
 	gcc -o server server.o -pthread
