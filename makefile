@@ -6,7 +6,7 @@ zip:
 server: server.o 
 	gcc -o server server.o -pthread
 
-test: test.o
+test: test.o server client
 	gcc -o test test.o
 
 client: client.o

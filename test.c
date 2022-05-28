@@ -1,58 +1,55 @@
 #include <assert.h>
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
-#include "stack.h"
-
-#define CHNKS 100 // a word big enough to take this amout of chunks in our simple implementation
-
-const size_t word_len = CHNKS * SIZE;
+#define MAX_LENGTH 256
 
 int main(int argc, char const *argv[])
 {
-	me_init();
-	stack *head = NULL;
-	char big_word[word_len];
-	memset(big_word, 0, word_len + 1);
 
-	for (size_t i = 0; i < word_len; ++i)
+	FILE *server, *c1, *c2, *c3;
+	int server_status, c1_status, c2_status, c3_status;
+	char buffer[MAX_LENGTH];
+
+	// open client proccesses
+	c1 = popen("./client 127.0.0.1", "w");
+	if (c1 == NULL)
 	{
-		big_word[i] = ('a' + (i % ('z' - 'a' + 1)));
+		perror("Failed to open server proccess!\n");
+		exit(1);
 	}
 
-	// check PUSH (and TOP)
-	printf("----------------------------------------------------------------------------\n");
-	push(&head, "");
-	assert(strcmp(show(&head), "") == 0);
-	push(&head, "hello world!");
-	assert(strcmp(show(&head), "hello world!") == 0);
-	push(&head, "welcome to the metaverse");
-	assert(strcmp(show(&head), "welcome to the metaverse") == 0);
-	push(&head, "hi there");
-	assert(strcmp(show(&head), "hi there") == 0);
-	push(&head, big_word);
-	assert(strcmp(show(&head), big_word) == 0);
-	printf("Done PUSH!\n");
+	// open client proccesses
+	c2 = popen("./client 127.0.0.1", "w");
+	if (c2 == NULL)
+	{
+		perror("Failed to open server proccess!\n");
+		exit(1);
+	}
 
-	// check POP
-	printf("----------------------------------------------------------------------------\n");
-	char *temp;
-	temp = pop(&head);
-	assert(strcmp(temp, big_word) == 0);
-	temp = pop(&head);
-	assert(strcmp(temp, "hi there") == 0);
-	temp = pop(&head);
-	assert(strcmp(temp, "welcome to the metaverse") == 0);
-	temp = pop(&head);
-	assert(strcmp(temp, "hello world!") == 0);
-	temp = pop(&head);
-	assert(strcmp(temp, "") == 0);
-	printf("Done POP!\n");
+	// open client proccesses
+	c3 = popen("./client 127.0.0.1", "w");
+	if (c3 == NULL)
+	{
+		perror("Failed to open server proccess!\n");
+		exit(1);
+	}
 
-	printf("----------------------------------------------------------------------------\n");
-	printf("\n\n");
-	printf("----------------------------------------------------------------------------\n");
-	printf("Tests Passed!\n");
-	printf("----------------------------------------------------------------------------\n");
+	printf("All Clients Connected Successfuly!\n");
+
+	sleep(1);
+
+	// send some commands
+	fputs("PUSH c1\n", c1);
+	fputs("PUSH c1\n", c1);
+	fputs("POP\n", c1);
+	fputs("PUSH c2\n", c2);
+	fputs("POP\n", c2);
+	fputs("POP\n", c2);
+	fputs("PUSH c3\n", c3);
+	fputs("POP\n", c3);
+
 	return 0;
 }
