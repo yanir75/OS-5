@@ -20,7 +20,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #define SA struct sockaddr
-#define PORT 3605 // the port users will be connecting to
+#define PORT 3606 // the port users will be connecting to
 #define MAX 1024
 #define BACKLOG 10 // how many pending connections queue will hold
 size_t *n_connected;
@@ -91,6 +91,10 @@ void *handle_client(void *args, int **ind, char **stack)
 			}
 			lock.l_type = F_UNLCK;
 			fcntl(fd, F_SETLKW, &lock);
+			if (**ind > 0)
+			{
+				**ind = **ind + 1;
+			}
 		}
 		else if (strncmp("TOP", buff, 3) == 0)
 		{

@@ -13,7 +13,7 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 
-#define PORT "3605" // the port client will be connecting to
+#define PORT "3606" // the port client will be connecting to
 
 #define MAXDATASIZE 100 // max number of bytes we can get at once
 

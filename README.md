@@ -7,5 +7,4 @@
 an example would be to run `./client 127.0.0.1`. you may more than one client on the same server
 
 #### tests
-1. run `make test` to create the "test" executable.
-2. to run the tests simply run `./test` and it will run. the test check the stack that works with our implementation of the malloc, calloc and free functions
+1. `make` will run the tests for you. (if everything is already compiled, run `./test`)
